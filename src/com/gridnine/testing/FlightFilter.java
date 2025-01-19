@@ -1,39 +1,35 @@
 package com.gridnine.testing;
 
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A filter, using an incoming set of conditions.
- * Inappropriate options are output to the console with a message, indicating reason.
+ * The class processes an incoming set of flights according to a set of filters.
+ * Inappropriate options are output to the console with a message indicating reason.
  */
 class FlightFilter {
-    static List<Flight> filter(List<Flight> flightList, Map<String, Predicate<Flight>> filters) {
-        List<Flight> sorted = new ArrayList<>(flightList);
-        List<Flight> remove = new ArrayList<>();
-        List<Flight> printMessage = new ArrayList<>();
-        Set<String> filterNames = filters.keySet();
-        Predicate<Flight> predicate;
 
-        for (String filterName : filterNames) {
-            predicate = filters.get(filterName);
-
-            for (Flight flight : sorted) {
-                if (!remove.contains(flight) && predicate.test(flight)) {
-                    remove.add(flight);
-                    printMessage.add(flight);
-                }
-            }
-
-            if (!printMessage.isEmpty()) {
-                System.out.printf("Flights excluded from the list due to:\t%s\n", filterName);
-                printMessage.forEach(System.out::println);
-            }
-
-            printMessage.clear();
+    static List<Flight> filterAll(List<Flight> flightList, List<Filter> filterList) {
+        if (flightList == null) {
+            return null;
+        } else if (filterList == null) {
+            return flightList;
         }
 
-        sorted.removeAll(remove);
+        List<Flight> sorted = new ArrayList<>(flightList);
+        List<Flight> removed = new ArrayList<>();
+
+        for (Filter filter : filterList) {
+            removed.addAll(sorted.stream().filter(filter::test).toList());
+
+            if (!removed.isEmpty()) {
+                System.out.printf("Flights excluded from the list due to:\t%s\n", filter.getMessage());
+                removed.forEach(System.out::println);
+                sorted.removeAll(removed);
+                removed.clear();
+            }
+        }
+
         return sorted;
     }
 }

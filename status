@@ -1,0 +1,129 @@
+[1mdiff --git a/src/com/gridnine/testing/Filter.java b/src/com/gridnine/testing/Filter.java[m
+[1mindex 565de8a..5fea82b 100644[m
+[1m--- a/src/com/gridnine/testing/Filter.java[m
+[1m+++ b/src/com/gridnine/testing/Filter.java[m
+[36m@@ -1,2 +1,10 @@[m
+[31m-package com.gridnine.testing;public interface Filter {[m
+[32m+[m[32mpackage com.gridnine.testing;[m
+[32m+[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m
+[32m+[m[32mpublic interface Filter {[m
+[32m+[m
+[32m+[m[32m    List<Flight> filter(List<Flight> flightList);[m
+[32m+[m[32m    String getMessage();[m
+[32m+[m[32m    List<Flight> getRemoved();[m
+ }[m
+[1mdiff --git a/src/com/gridnine/testing/Filter1.java b/src/com/gridnine/testing/Filter1.java[m
+[1mindex e06e910..19754d3 100644[m
+[1m--- a/src/com/gridnine/testing/Filter1.java[m
+[1m+++ b/src/com/gridnine/testing/Filter1.java[m
+[36m@@ -1,2 +1,36 @@[m
+[31m-package com.gridnine.testing;public class Filter1 {[m
+[32m+[m[32mpackage com.gridnine.testing;[m
+[32m+[m
+[32m+[m[32mimport java.time.LocalDateTime;[m
+[32m+[m[32mimport java.util.ArrayList;[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m
+[32m+[m[32mpublic class Filter1 implements Filter{[m
+[32m+[m[32m    List<Flight> removed = new ArrayList<>();[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public List<Flight> filter(List<Flight> flightList) {[m
+[32m+[m[32m        List<Flight> sorted = new ArrayList<>();[m
+[32m+[m
+[32m+[m[32m        for (Flight flight : flightList) {[m
+[32m+[m[32m            for (Segment segment : flight.getSegments()) {[m
+[32m+[m[32m                if (segment.getDepartureDate().isBefore(LocalDateTime.now())) {[m
+[32m+[m[32m                    removed.add(flight);[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }[m
+[32m+[m[32m            sorted.add(flight);[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        return sorted;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public String getMessage() {[m
+[32m+[m[32m        return "departure before the current time";[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public List<Flight> getRemoved() {[m
+[32m+[m[32m        return removed;[m
+[32m+[m[32m    }[m
+ }[m
+[1mdiff --git a/src/com/gridnine/testing/TestClasses.java b/src/com/gridnine/testing/TestClasses.java[m
+[1mindex a381b18..7dadea5 100644[m
+[1m--- a/src/com/gridnine/testing/TestClasses.java[m
+[1m+++ b/src/com/gridnine/testing/TestClasses.java[m
+[36m@@ -15,28 +15,28 @@[m [mclass FlightBuilder {[m
+     static List<Flight> createFlights() {[m
+         LocalDateTime threeDaysFromNow = LocalDateTime.now().plusDays(3);[m
+         return Arrays.asList([m
+[31m-                //A normal flight with two hour duration[m
+[31m-                createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2)),[m
+[31m-                //A normal multi segment flight[m
+[31m-                createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2),[m
+[31m-                        threeDaysFromNow.plusHours(3), threeDaysFromNow.plusHours(5)),[m
+[31m-                //A flight departing in the past[m
+[31m-                createFlight(threeDaysFromNow.minusDays(6), threeDaysFromNow),[m
+[31m-                //A flight that departs before it arrives[m
+[31m-                createFlight(threeDaysFromNow, threeDaysFromNow.minusHours(6)),[m
+[31m-                //A flight with more than two hours ground time[m
+[31m-                createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2),[m
+[31m-                        threeDaysFromNow.plusHours(5), threeDaysFromNow.plusHours(6)),[m
+[31m-                //Another flight with more than two hours ground time[m
+[31m-                createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2),[m
+[31m-                        threeDaysFromNow.plusHours(3), threeDaysFromNow.plusHours(4),[m
+[31m-                        threeDaysFromNow.plusHours(6), threeDaysFromNow.plusHours(7)));[m
+[32m+[m[32m            //A normal flight with two hour duration[m
+[32m+[m[32m            createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2)),[m
+[32m+[m[32m            //A normal multi segment flight[m
+[32m+[m[32m            createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2),[m
+[32m+[m[32m                threeDaysFromNow.plusHours(3), threeDaysFromNow.plusHours(5)),[m
+[32m+[m[32m            //A flight departing in the past[m
+[32m+[m[32m            createFlight(threeDaysFromNow.minusDays(6), threeDaysFromNow),[m
+[32m+[m[32m            //A flight that departs before it arrives[m
+[32m+[m[32m            createFlight(threeDaysFromNow, threeDaysFromNow.minusHours(6)),[m
+[32m+[m[32m            //A flight with more than two hours ground time[m
+[32m+[m[32m            createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2),[m
+[32m+[m[32m                threeDaysFromNow.plusHours(5), threeDaysFromNow.plusHours(6)),[m
+[32m+[m[32m            //Another flight with more than two hours ground time[m
+[32m+[m[32m            createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2),[m
+[32m+[m[32m                threeDaysFromNow.plusHours(3), threeDaysFromNow.plusHours(4),[m
+[32m+[m[32m                threeDaysFromNow.plusHours(6), threeDaysFromNow.plusHours(7)));[m
+     }[m
+ [m
+     private static Flight createFlight(final LocalDateTime... dates) {[m
+         if ((dates.length % 2) != 0) {[m
+             throw new IllegalArgumentException([m
+[31m-                    "you must pass an even number of dates");[m
+[32m+[m[32m                "you must pass an even number of dates");[m
+         }[m
+         List<Segment> segments = new ArrayList<>(dates.length / 2);[m
+         for (int i = 0; i < (dates.length - 1); i += 2) {[m
+[36m@@ -63,7 +63,7 @@[m [mclass Flight {[m
+     @Override[m
+     public String toString() {[m
+         return segments.stream().map(Object::toString)[m
+[31m-                .collect(Collectors.joining(" "));[m
+[32m+[m[32m            .collect(Collectors.joining(" "));[m
+     }[m
+ }[m
+ [m
+[36m@@ -91,8 +91,8 @@[m [mclass Segment {[m
+     @Override[m
+     public String toString() {[m
+         DateTimeFormatter fmt =[m
+[31m-                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");[m
+[32m+[m[32m            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");[m
+         return '[' + departureDate.format(fmt) + '|' + arrivalDate.format(fmt)[m
+[31m-                + ']';[m
+[32m+[m[32m            + ']';[m
+     }[m
+ }[m
+\ No newline at end of file[m
