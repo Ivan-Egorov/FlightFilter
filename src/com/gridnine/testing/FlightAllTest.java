@@ -5,7 +5,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FlightFilterTest {
+public class FlightAllTest {
     List<Flight> flightList = FlightBuilder.createFlights();
     List<Filter> filterList = List.of(new Filter1(),
                                       new Filter2(),
@@ -13,23 +13,23 @@ public class FlightFilterTest {
 
     @Test
     public void emptyTest() {
-        assertTrue(FlightFilter.filterAll(new ArrayList<>(), new ArrayList<>()).isEmpty());
+        assertTrue(FilterAll.filter(new ArrayList<>(), new ArrayList<>()).isEmpty());
     }
 
     @Test
     public void nullFlightTest() {
         List<Flight> nullList = new ArrayList<>();
         nullList.add(null);
-        assertTrue(FlightFilter.filterAll(nullList, filterList).isEmpty());
+        assertTrue(FilterAll.filter(nullList, filterList).isEmpty());
     }
 
     @Test
     public void nullFlightListTest() {
-        assertTrue(FlightFilter.filterAll(null, filterList).isEmpty());
+        assertTrue(FilterAll.filter(null, filterList).isEmpty());
     }
 
     @Test
     public void nullFilterListTest() {
-        assertEquals(FlightFilter.filterAll(flightList, null), flightList);
+        assertEquals(FilterAll.filter(flightList, null), flightList);
     }
 }

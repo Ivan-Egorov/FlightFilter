@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The class processes an incoming set of flights according to a set of filters.
+ * The class processes an incoming set of filters.
  * Inappropriate options are output to the console with a message indicating reason.
  */
-class FlightFilter {
+class FilterAll {
 
-    static List<Flight> filterAll(List<Flight> flightList, List<Filter> filterList) {
+    static List<Flight> filter(List<Flight> flightList, List<Filter> filterList) {
         if (flightList == null) {
             return new ArrayList<>();
         } else if (filterList == null) {

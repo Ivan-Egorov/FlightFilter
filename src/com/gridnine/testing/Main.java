@@ -1,6 +1,5 @@
 package com.gridnine.testing;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ public class Main {
                                           new Filter2(),
                                           new Filter3());
 
-        List<Flight> suitable = FlightFilter.filterAll(flightList, filterList);
+        List<Flight> suitable = FilterAll.filter(flightList, filterList);
         System.out.println("Suitable flight options:");
         suitable.forEach(System.out::println);
     }
