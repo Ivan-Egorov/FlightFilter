@@ -1,5 +1,6 @@
 package com.gridnine.testing;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         List<Flight> flightList = FlightBuilder.createFlights();
-
         List<Filter> filterList = List.of(new Filter1(),
                                           new Filter2(),
                                           new Filter3());

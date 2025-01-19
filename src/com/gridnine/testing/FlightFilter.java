@@ -2,6 +2,7 @@ package com.gridnine.testing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The class processes an incoming set of flights according to a set of filters.
@@ -11,12 +12,12 @@ class FlightFilter {
 
     static List<Flight> filterAll(List<Flight> flightList, List<Filter> filterList) {
         if (flightList == null) {
-            return null;
+            return new ArrayList<>();
         } else if (filterList == null) {
             return flightList;
         }
 
-        List<Flight> sorted = new ArrayList<>(flightList);
+        List<Flight> sorted = new ArrayList<>(flightList.stream().filter(Objects::nonNull).toList());
         List<Flight> removed = new ArrayList<>();
 
         for (Filter filter : filterList) {
